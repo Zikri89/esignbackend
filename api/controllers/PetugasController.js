@@ -1,13 +1,13 @@
 module.exports = {
   find: async function (req, res) {
     try {
-      const category = await Category.find()
+      const petugas = await Petugas.find()
 
-      if (!category) {
-        return res.notFound('category not found')
+      if (!petugas) {
+        return res.notFound('Petugas not found')
       }
 
-      return res.json(category)
+      return res.json(petugas)
     } catch (error) {
       return res.serverError(error)
     }
@@ -15,14 +15,14 @@ module.exports = {
 
   findById: async function (req, res) {
     try {
-      const categoryId = req.param('id')
-      const category = await Category.findOne({ id: categoryId })
+      const petugasId = req.param('id')
+      const petugas = await Petugas.findOne({ id: petugasId })
 
-      if (!category) {
-        return res.notFound('category not found')
+      if (!petugas) {
+        return res.notFound('Petugas not found')
       }
 
-      return res.json(category)
+      return res.json(petugas)
     } catch (error) {
       return res.serverError(error)
     }
@@ -31,20 +31,20 @@ module.exports = {
   store: async function (req, res) {
     try {
       const keys = Object.keys(req.body)
-      const category = await Category.create(
+      const petugas = await Petugas.create(
         keys.reduce((acc, key) => {
           acc[key] = req.body[key]
           return acc
         }, {})
       ).fetch()
 
-      if (!category) {
-        return res.notFound('category not created')
+      if (!petugas) {
+        return res.notFound('Petugas not created')
       }
 
       return res.json({
-        message: 'category created successfully',
-        result: category,
+        message: 'Petugas created successfully',
+        result: petugas,
       })
     } catch (err) {
       if (err.code === 'E_UNIQUE') {
@@ -61,24 +61,24 @@ module.exports = {
   update: async function (req, res) {
     try {
       const keys = Object.keys(req.body)
-      const categoryId = req.param('id')
+      const petugasId = req.param('id')
       const updatedData = keys.reduce((acc, key) => {
         acc[key] = req.body[key]
         return acc
       }, {})
 
-      const category = await Category.update(
-        { id: categoryId },
+      const petugas = await Petugas.update(
+        { id: petugasId },
         updatedData
       ).fetch()
 
-      if (!category || category.length === 0) {
-        return res.notFound('category not found')
+      if (!petugas || petugas.length === 0) {
+        return res.notFound('Petugas not found')
       }
 
       return res.json({
-        message: 'category updated successfully',
-        result: category[0],
+        message: 'Petugas updated successfully',
+        result: petugas[0],
       })
     } catch (err) {
       if (err.code === 'E_UNIQUE') {
@@ -94,12 +94,12 @@ module.exports = {
 
   softDelete: async function (req, res) {
     try {
-      const categoryId = req.params.id
-      if (!categoryId) {
-        return res.badRequest('category ID is required')
+      const petugasId = req.params.id
+      if (!petugasId) {
+        return res.badRequest('Petugas ID is required')
       }
 
-      const category = await Category.updateOne({ id: categoryId })
+      const petugas = await Petugas.updateOne({ id: petugasId })
         .set({
           deletedBy: 'guest',
           deletedAt: new Date(),
@@ -107,13 +107,13 @@ module.exports = {
         })
         .fetch()
 
-      if (!category || category.length === 0) {
-        return res.notFound('category not found')
+      if (!petugas || petugas.length === 0) {
+        return res.notFound('Petugas not found')
       }
 
       return res.json({
-        message: 'category deleted successfully',
-        result: category[0],
+        message: 'Petugas deleted successfully',
+        result: petugas[0],
       })
     } catch (error) {
       return res.serverError(error)
@@ -122,15 +122,15 @@ module.exports = {
 
   destroy: async function (req, res) {
     try {
-      const category = await Category.destroy({}).fetch()
+      const petugas = await Petugas.destroy({}).fetch()
 
-      if (!category || category.length === 0) {
-        return res.notFound('category not found')
+      if (!petugas || petugas.length === 0) {
+        return res.notFound('Petugas not found')
       }
 
       return res.json({
-        message: 'category deleted successfully',
-        result: category[0],
+        message: 'Petugas deleted successfully',
+        result: petugas[0],
       })
     } catch (error) {
       return res.serverError(error)

@@ -1,0 +1,83 @@
+module.exports = {
+  tableName: 'reg_periksa',
+  primaryKey: 'noRawat',
+  attributes: {
+    noReg: { type: 'string', required: true, columnName: 'no_reg' },
+    noRawat: {
+      type: 'string',
+      required: true,
+      columnName: 'no_rawat',
+    },
+    tglRegistrasi: {
+      type: 'ref',
+      columnType: 'date',
+      required: true,
+      columnName: 'tgl_registrasi',
+    },
+    jamReg: {
+      type: 'ref',
+      columnType: 'time',
+      required: true,
+      columnName: 'jam_reg',
+    },
+    kdDokter: {
+      columnName: 'kd_dokter',
+      model: 'dokter',
+    },
+    noRkmMedis: { type: 'string', required: true, columnName: 'no_rkm_medis' },
+    kdPoli: { model: 'poliklinik', columnName: 'kd_poli' },
+    pJawab: { type: 'string', required: true, columnName: 'p_jawab' },
+    almtPj: { type: 'string', required: true, columnName: 'almt_pj' },
+    hubunganpj: { type: 'string', required: true },
+    biayaReg: { type: 'number', required: true, columnName: 'biaya_reg' },
+    stts: {
+      type: 'string',
+      isIn: [
+        'Belum',
+        'Sudah',
+        'Batal',
+        'Berkas Diterima',
+        'Dirujuk',
+        'Meninggal',
+        'Dirawat',
+        'Pulang Paksa',
+      ],
+      required: true,
+    },
+    sttsDaftar: {
+      type: 'string',
+      isIn: ['-', 'Lama', 'Baru'],
+      required: true,
+      columnName: 'stts_daftar',
+    },
+    statusLanjut: {
+      type: 'string',
+      isIn: ['Ralan', 'Ranap'],
+      required: true,
+      columnName: 'status_lanjut',
+    },
+    kdPj: {
+      columnName: 'kd_pj',
+      model: 'penjab',
+    },
+    umurdaftar: { type: 'number', required: true, columnName: 'umurdaftar' },
+    sttsumur: {
+      type: 'string',
+      isIn: ['Th', 'Bl', 'Hr'],
+      required: true,
+      columnName: 'sttsumur',
+    },
+    statusBayar: {
+      type: 'string',
+      isIn: ['Sudah Bayar', 'Belum Bayar'],
+      required: true,
+      columnName: 'status_bayar',
+    },
+    statusPoli: {
+      type: 'string',
+      isIn: ['Lama', 'Baru'],
+      required: true,
+      columnName: 'status_poli',
+    },
+  },
+}

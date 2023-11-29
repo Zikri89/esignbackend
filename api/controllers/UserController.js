@@ -1,15 +1,13 @@
 module.exports = {
   find: async function (req, res) {
     try {
-      const product = await Product.find()
-        .populate('category')
-        .populate('supplier')
+      const user = await User.find()
 
-      if (!product) {
-        return res.notFound('Product not found')
+      if (!user) {
+        return res.notFound('User not found')
       }
 
-      return res.json(product)
+      return res.json(user)
     } catch (error) {
       return res.serverError(error)
     }
@@ -17,16 +15,14 @@ module.exports = {
 
   findById: async function (req, res) {
     try {
-      const productId = req.param('id')
-      const product = await Product.findOne({ id: productId })
-        .populate('category')
-        .populate('supplier')
+      const userId = req.param('id')
+      const user = await User.findOne({ id: userId })
 
-      if (!product) {
-        return res.notFound('Product not found')
+      if (!user) {
+        return res.notFound('User not found')
       }
 
-      return res.json(product)
+      return res.json(user)
     } catch (error) {
       return res.serverError(error)
     }
@@ -35,20 +31,20 @@ module.exports = {
   store: async function (req, res) {
     try {
       const keys = Object.keys(req.body)
-      const product = await Product.create(
+      const user = await User.create(
         keys.reduce((acc, key) => {
           acc[key] = req.body[key]
           return acc
         }, {})
       ).fetch()
 
-      if (!product) {
-        return res.notFound('Product not created')
+      if (!user) {
+        return res.notFound('User not created')
       }
 
       return res.json({
-        message: 'Product created successfully',
-        result: product,
+        message: 'User created successfully',
+        result: user,
       })
     } catch (err) {
       if (err.code === 'E_UNIQUE') {
@@ -65,24 +61,21 @@ module.exports = {
   update: async function (req, res) {
     try {
       const keys = Object.keys(req.body)
-      const productId = req.param('id')
+      const userId = req.param('id')
       const updatedData = keys.reduce((acc, key) => {
         acc[key] = req.body[key]
         return acc
       }, {})
 
-      const product = await Product.update(
-        { id: productId },
-        updatedData
-      ).fetch()
+      const user = await User.update({ id: userId }, updatedData).fetch()
 
-      if (!product || product.length === 0) {
-        return res.notFound('Product not found')
+      if (!user || user.length === 0) {
+        return res.notFound('User not found')
       }
 
       return res.json({
-        message: 'Product updated successfully',
-        result: product[0],
+        message: 'User updated successfully',
+        result: user[0],
       })
     } catch (err) {
       if (err.code === 'E_UNIQUE') {
@@ -98,12 +91,12 @@ module.exports = {
 
   softDelete: async function (req, res) {
     try {
-      const productId = req.params.id
-      if (!productId) {
-        return res.badRequest('Product ID is required')
+      const userId = req.params.id
+      if (!userId) {
+        return res.badRequest('User ID is required')
       }
 
-      const product = await Product.updateOne({ id: productId })
+      const user = await User.updateOne({ id: userId })
         .set({
           deletedBy: 'guest',
           deletedAt: new Date(),
@@ -111,13 +104,13 @@ module.exports = {
         })
         .fetch()
 
-      if (!product || product.length === 0) {
-        return res.notFound('Product not found')
+      if (!user || user.length === 0) {
+        return res.notFound('User not found')
       }
 
       return res.json({
-        message: 'Product deleted successfully',
-        result: product[0],
+        message: 'User deleted successfully',
+        result: user[0],
       })
     } catch (error) {
       return res.serverError(error)
@@ -126,15 +119,15 @@ module.exports = {
 
   destroy: async function (req, res) {
     try {
-      const product = await Product.destroy({}).fetch()
+      const user = await User.destroy({}).fetch()
 
-      if (!product || product.length === 0) {
-        return res.notFound('Product not found')
+      if (!user || user.length === 0) {
+        return res.notFound('User not found')
       }
 
       return res.json({
-        message: 'Product deleted successfully',
-        result: product[0],
+        message: 'User deleted successfully',
+        result: user[0],
       })
     } catch (error) {
       return res.serverError(error)
