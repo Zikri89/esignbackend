@@ -34,6 +34,7 @@ module.exports.http = {
     //   'cookieParser',
     //   'session',
        'bodyParser',
+       'cors',
        'checkApiKey',
     //   'compress',
     //   'poweredBy',
@@ -41,6 +42,13 @@ module.exports.http = {
     //   'www',
     //   'favicon',
      ],
+
+     cors: require('cors')({
+      origin: 'http://localhost:4200',
+      credentials: true,
+      methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+      headers: 'content-type, x-api-key, unauthorized ',
+    }),
 
 
     /***************************************************************************
