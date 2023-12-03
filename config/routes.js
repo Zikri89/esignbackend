@@ -1,4 +1,3 @@
-const userRoutes = require('./routes/userRoutes')
 /**
  * Route Mappings
  * (sails.config.routes)
@@ -9,7 +8,4 @@ const userRoutes = require('./routes/userRoutes')
  * https://sailsjs.com/anatomy/config/routes-js
  */
 
-module.exports.routes = {
-  '/': { view: 'pages/homepage' },
-  ...userRoutes.routes,
-}
+module.exports.routes = {}

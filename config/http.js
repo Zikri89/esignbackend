@@ -45,9 +45,9 @@ module.exports.http = {
 
      cors: require('cors')({
       origin: 'http://localhost:4200',
-      credentials: true,
+      credentials: false,
       methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-      headers: 'content-type, x-api-key, unauthorized ',
+      headers: 'content-type, x-api-key, authorization',
     }),
 
 
@@ -65,8 +65,8 @@ module.exports.http = {
     //   return middlewareFn;
     // })(),
     checkApiKey: function (req, res, next) {
-      const apiKey = req.headers.apikey;
-      if (apiKey !== process.env.AJWAD_API_KEY) {
+      const apiKey = req.headers['x-api-key'];
+      if (apiKey !== process.env.ESIGN_API_KEY) {
         return res.status(403).json({ error: 'Invalid API key' });
       }
 
