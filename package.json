@@ -11,6 +11,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "grunt": "1.0.4",
+    "jsonwebtoken": "^9.0.2",
     "jwt-simple": "^0.5.6",
     "machinepack-passwords": "^2.3.0",
     "sails": "^1.5.8",

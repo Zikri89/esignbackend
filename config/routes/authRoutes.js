@@ -4,4 +4,10 @@ module.exports.routes = {
     action: 'auth',
     middleware: 'checkApiKey',
   },
+
+  'GET /api/v1/authWithToken': {
+    controller: 'AuthController',
+    action: 'authWithToken',
+    middleware: 'checkApiKey',
+  },
 }
