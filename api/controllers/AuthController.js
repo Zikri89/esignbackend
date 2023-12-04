@@ -18,7 +18,7 @@ module.exports = {
       const payload = {
         idUser: user.idUser,
         password: user.password,
-        exp: Math.floor(Date.now() / 1000) + (3 * 60 * 60),
+        exp: Math.floor(Date.now() / 1000) + 5,
       };
 
       const secretKey = process.env.ESIGN_SECRET_KEY;
@@ -37,53 +37,35 @@ module.exports = {
   },
 
   authWithToken: async function (req, res) {
-    try {
-      // Ambil token dari header permintaan
-      const tokenWithBearer  = req.headers.authorization;
+    // Ambil token dari header permintaan
+    const tokenWithBearer  = req.headers.authorization;
 
-      // Jika token tidak ada, kembalikan kesalahan
-      if (!tokenWithBearer) {
-        return res.badRequest('Token not provided');
-      }
-
-      const [, token] = tokenWithBearer.split(' ');
-
-      const secretKey = process.env.ESIGN_SECRET_KEY;
-
-      try {
-        // Verify token dan dapatkan payload langsung
-        const payload = jwt.verify(token, secretKey);
-
-        // Periksa apakah token masih berlaku
-        const currentTime = Math.floor(Date.now() / 1000);
-
-        if (payload.exp <= currentTime) {
-          // Token telah kedaluwarsa, kembalikan kesalahan
-          return res.badRequest('Token has expired');
-        }
-
-        // Token masih berlaku, lanjutkan dengan login
-        const userId = payload.idUser;
-        const password = payload.password;
-        const user = await User.findOne({ idUser: userId, password: password });
-
-        if (!user) {
-          return res.badRequest('User not found');
-        }
-
-        user.accessToken = token;
-        user.email = 'admin.rsuktgpriok@gmail.com';
-        user.name = 'admin';
-        user.avatar = 'assets/images/avatars/brian-hughes.jpg';
-
-        // Jika semuanya valid, kirimkan data pengguna sebagai respons
-        return res.json(user);
-      } catch (error) {
-        // Jika verifikasi gagal, kembalikan kesalahan
-        return res.badRequest('Invalid token');
-      }
-    } catch (error) {
-      return res.serverError(error);
+    // Jika token tidak ada, kembalikan kesalahan
+    if (!tokenWithBearer) {
+      return res.badRequest('Token not provided');
     }
-  },
+
+    const [, token] = tokenWithBearer.split(' ');
+
+    const secretKey = process.env.ESIGN_SECRET_KEY;
+
+    // Verify token dan dapatkan payload langsung
+    const payload = jwt.verify(token, secretKey);
+    // Token masih berlaku, lanjutkan dengan login
+    const userId = payload.idUser;
+    const password = payload.password;
+    const user = await User.findOne({ idUser: userId, password: password });
+
+    if (!user) {
+      return res.badRequest('User not found');
+    }
+
+    user.accessToken = token;
+    user.email = 'admin.rsuktgpriok@gmail.com';
+    user.name = 'admin';
+    user.avatar = 'assets/images/avatars/brian-hughes.jpg';
+
+    // Jika semuanya valid, kirimkan data pengguna sebagai respons
+    return res.json(user);
+}
 };
