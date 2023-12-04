@@ -11,6 +11,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "grunt": "1.0.4",
+    "machinepack-passwords": "^2.3.0",
     "sails": "^1.5.8",
     "sails-hook-grunt": "^5.0.0",
     "sails-hook-orm": "^4.0.0",
