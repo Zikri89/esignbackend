@@ -29,4 +29,9 @@ module.exports.routes = {
     action: 'destroy',
     middleware: 'checkApiKey',
   },
+  'DELETE /api/v1/regPeriksa/:id': {
+    controller: 'RegPeriksaController',
+    action: 'destroyById',
+    middleware: 'checkApiKey',
+  },
 }

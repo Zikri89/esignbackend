@@ -29,4 +29,9 @@ module.exports.routes = {
     action: 'destroy',
     middleware: 'checkApiKey',
   },
+  'DELETE /api/v1/penjab/:id': {
+    controller: 'PenjabController',
+    action: 'destroyById',
+    middleware: 'checkApiKey',
+  },
 }

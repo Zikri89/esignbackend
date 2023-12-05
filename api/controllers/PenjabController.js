@@ -133,4 +133,24 @@ module.exports = {
       return res.serverError(error)
     }
   },
+
+  destroyById: async function (req, res) {
+    try {
+      const penjabId = req.params.id
+      const penjab = await Penjab.destroy({
+        id: penjabId,
+      }).fetch()
+
+      if (!penjab || penjab.length === 0) {
+        return res.notFound('Penjab not found')
+      }
+
+      return res.json({
+        message: 'Penjab deleted successfully',
+        result: penjab[0],
+      })
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
 }

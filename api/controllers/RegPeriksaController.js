@@ -139,4 +139,24 @@ module.exports = {
       return res.serverError(error)
     }
   },
+
+  destroyById: async function (req, res) {
+    try {
+      const regPeriksaId = req.params.id
+      const regPeriksa = await RegPeriksa.destroy({
+        id: regPeriksaId,
+      }).fetch()
+
+      if (!regPeriksa || regPeriksa.length === 0) {
+        return res.notFound('RegPeriksa not found')
+      }
+
+      return res.json({
+        message: 'RegPeriksa deleted successfully',
+        result: regPeriksa[0],
+      })
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
 }

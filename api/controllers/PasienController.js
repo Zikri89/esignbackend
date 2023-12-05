@@ -133,4 +133,24 @@ module.exports = {
       return res.serverError(error)
     }
   },
+
+  destroyById: async function (req, res) {
+    try {
+      const pasienId = req.params.id
+      const pasien = await Pasien.destroy({
+        id: pasienId,
+      }).fetch()
+
+      if (!pasien || pasien.length === 0) {
+        return res.notFound('Pasien not found')
+      }
+
+      return res.json({
+        message: 'Pasien deleted successfully',
+        result: pasien[0],
+      })
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
 }

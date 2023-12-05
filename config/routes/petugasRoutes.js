@@ -29,4 +29,9 @@ module.exports.routes = {
     action: 'destroy',
     middleware: 'checkApiKey',
   },
+  'DELETE /api/v1/petugas/:id': {
+    controller: 'PetugasController',
+    action: 'destroyById',
+    middleware: 'checkApiKey',
+  },
 }

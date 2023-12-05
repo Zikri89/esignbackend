@@ -133,4 +133,24 @@ module.exports = {
       return res.serverError(error)
     }
   },
+
+  destroyById: async function (req, res) {
+    try {
+      const userId = req.params.id
+      const user = await User.destroy({
+        id: userId,
+      }).fetch()
+
+      if (!user || user.length === 0) {
+        return res.notFound('User not found')
+      }
+
+      return res.json({
+        message: 'User deleted successfully',
+        result: user[0],
+      })
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
 }

@@ -136,4 +136,24 @@ module.exports = {
       return res.serverError(error)
     }
   },
+
+  destroyById: async function (req, res) {
+    try {
+      const poliklinikId = req.params.id
+      const poliklinik = await Poliklinik.destroy({
+        id: poliklinikId,
+      }).fetch()
+
+      if (!poliklinik || poliklinik.length === 0) {
+        return res.notFound('Poliklinik not found')
+      }
+
+      return res.json({
+        message: 'Poliklinik deleted successfully',
+        result: poliklinik[0],
+      })
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
 }

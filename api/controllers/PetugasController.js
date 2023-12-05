@@ -136,4 +136,24 @@ module.exports = {
       return res.serverError(error)
     }
   },
+
+  destroyById: async function (req, res) {
+    try {
+      const petugasId = req.params.id
+      const petugas = await Petugas.destroy({
+        id: petugasId,
+      }).fetch()
+
+      if (!petugas || petugas.length === 0) {
+        return res.notFound('Petugas not found')
+      }
+
+      return res.json({
+        message: 'Petugas deleted successfully',
+        result: petugas[0],
+      })
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
 }

@@ -29,4 +29,9 @@ module.exports.routes = {
     action: 'destroy',
     middleware: 'checkApiKey',
   },
+  'DELETE /api/v1/user/:id': {
+    controller: 'UserController',
+    action: 'destroyById',
+    middleware: 'checkApiKey',
+  },
 }
