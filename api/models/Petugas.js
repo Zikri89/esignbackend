@@ -1,5 +1,4 @@
 module.exports = {
-  datastore: 'mongodb',
   tableName: 'petugas',
   // primaryKey: 'nip',
   attributes: {

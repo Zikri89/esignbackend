@@ -1,5 +1,4 @@
 module.exports = {
-  datastore: 'mongodb',
   tableName: 'pasien',
   attributes: {
     noRkmMedis: { type: 'string', required: true, columnName: 'no_rkm_medis' },

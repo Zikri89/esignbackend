@@ -1,5 +1,4 @@
 module.exports = {
-  datastore: 'mongodb',
   tableName: 'reg_periksa',
   // primaryKey: 'noRawat',
   attributes: {
