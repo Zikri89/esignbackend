@@ -1,6 +1,7 @@
 module.exports = {
+  datastore: 'mongodb',
   tableName: 'user',
-  primaryKey: 'idUser',
+  // primaryKey: 'idUser',
   attributes: {
     idUser: {
       type: 'string',

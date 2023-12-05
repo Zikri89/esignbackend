@@ -1,6 +1,7 @@
 module.exports = {
+  datastore: 'mongodb',
   tableName: 'petugas',
-  primaryKey: 'nip',
+  // primaryKey: 'nip',
   attributes: {
     nip: { type: 'string', required: true },
     nama: { type: 'string', required: true },

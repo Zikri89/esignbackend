@@ -1,4 +1,5 @@
 module.exports = {
+  datastore: 'mongodb',
   tableName: 'form_manager',
   attributes: {
     name: {

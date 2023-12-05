@@ -1,6 +1,7 @@
 module.exports = {
+  datastore: 'mongodb',
   tableName: 'penjab',
-  primaryKey: 'kdPj',
+  // primaryKey: 'kdPj',
   attributes: {
     kdPj: {
       type: 'string',
