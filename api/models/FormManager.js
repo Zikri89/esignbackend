@@ -1,5 +1,4 @@
 module.exports = {
-  datastore: 'mongodb',
   tableName: 'form_manager',
   attributes: {
     name: {
@@ -16,6 +15,23 @@ module.exports = {
     description: {
       type: 'string',
       columnName: 'description',
+    },
+    isDeleted: {
+      type: 'boolean',
+      columnName: 'isDeleted',
+      defaultsTo: false,
+    },
+    deletedBy: {
+      type: 'string',
+      columnName: 'deletedBy',
+    },
+    deletedAt: {
+      type: 'ref',
+      columnName: 'deletedAt',
+    },
+    status: {
+      type: 'string',
+      columnName: 'status',
     },
   },
 }

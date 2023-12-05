@@ -29,4 +29,10 @@ module.exports.routes = {
     action: 'destroy',
     middleware: 'checkApiKey',
   },
+
+  'DELETE /api/v1/formManager/:id': {
+    controller: 'FormManagerController',
+    action: 'destroyById',
+    middleware: 'checkApiKey',
+  },
 }

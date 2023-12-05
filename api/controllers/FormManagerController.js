@@ -1,7 +1,7 @@
 module.exports = {
   find: async function (req, res) {
     try {
-      const formManager = await FormManager.find()
+      const formManager = await FormManager.find({ isDeleted: false })
 
       if (!formManager) {
         return res.notFound('Form Manager not found')
@@ -16,7 +16,10 @@ module.exports = {
   findById: async function (req, res) {
     try {
       const formManagerId = req.param('id')
-      const formManager = await FormManager.findOne({ id: formManagerId })
+      const formManager = await FormManager.findOne({
+        id: formManagerId,
+        isDeleted: false,
+      })
 
       if (!formManager) {
         return res.notFound('Form Manager not found')
@@ -67,7 +70,10 @@ module.exports = {
         return acc
       }, {})
 
-      const formManager = await FormManager.update({ id: formManagerId }, updatedData).fetch()
+      const formManager = await FormManager.update(
+        { id: formManagerId },
+        updatedData
+      ).fetch()
 
       if (!formManager || formManager.length === 0) {
         return res.notFound('Form Manager not found')
@@ -96,11 +102,12 @@ module.exports = {
         return res.badRequest('Form Manager ID is required')
       }
 
-      const formManager = await FormManager.updateOne({ id: formManagerId })
+      const formManager = await FormManager.update({ id: formManagerId })
         .set({
           deletedBy: 'guest',
           deletedAt: new Date(),
           isDeleted: true,
+          staus: 'trash',
         })
         .fetch()
 
@@ -120,6 +127,26 @@ module.exports = {
   destroy: async function (req, res) {
     try {
       const formManager = await FormManager.destroy({}).fetch()
+
+      if (!formManager || formManager.length === 0) {
+        return res.notFound('Form Manager not found')
+      }
+
+      return res.json({
+        message: 'Form Manager deleted successfully',
+        result: formManager[0],
+      })
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
+
+  destroyById: async function (req, res) {
+    try {
+      const formManagerId = req.params.id
+      const formManager = await FormManager.destroy({
+        id: formManagerId,
+      }).fetch()
 
       if (!formManager || formManager.length === 0) {
         return res.notFound('Form Manager not found')
