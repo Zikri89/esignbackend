@@ -7,11 +7,6 @@ module.exports = {
       columnName: 'name',
       unique: true,
     },
-    columnLength: {
-      type: 'string',
-      required: true,
-      columnName: 'columnLength',
-    },
     description: {
       type: 'string',
       columnName: 'description',
