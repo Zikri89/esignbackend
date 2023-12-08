@@ -11,7 +11,6 @@ module.exports = {
       columnType: 'array',
       required: true,
       columnName: 'form_field',
-      defaultsTo: [],
     },
   },
 };
