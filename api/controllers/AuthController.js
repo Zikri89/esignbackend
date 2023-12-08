@@ -45,7 +45,11 @@ module.exports = {
       return res.badRequest('Token not provided')
     }
 
-    const [, token] = tokenWithBearer.split(' ')
+    var [, token] = tokenWithBearer.split(' ')
+
+    if(token == undefined){
+      token = tokenWithBearer;
+    }
 
     const secretKey = process.env.ESIGN_SECRET_KEY
 
