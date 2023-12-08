@@ -33,7 +33,7 @@ module.exports = {
       const keys = Object.keys(req.body)
       const dynamicForm = await DynamicForm.create(
         keys.reduce((acc, key) => {
-          acc[key] = req.body[key]
+          acc[key] =  req.body[key]
           return acc
         }, {})
       ).fetch()
