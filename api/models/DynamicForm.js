@@ -8,7 +8,6 @@ module.exports = {
     },
     formFields: {
       type: 'json',
-      columnType: 'array',
       required: true,
       columnName: 'form_field',
     },
