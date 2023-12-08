@@ -18,7 +18,7 @@ module.exports = {
       const payload = {
         idUser: user.idUser,
         password: user.password,
-        exp: Math.floor(Date.now() / 1000) + 5,
+        exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60),
       }
 
       const secretKey = process.env.ESIGN_SECRET_KEY
@@ -64,7 +64,15 @@ module.exports = {
       return res.badRequest('User not found')
     }
 
-    user.accessToken = token
+    const newPayload = {
+      idUser: user.idUser,
+      password: user.password,
+      exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60),
+    };
+
+    const newToken = jwt.sign(newPayload, secretKey);
+    user.accessToken = newToken;
+
     user.email = 'admin.rsuktgpriok@gmail.com'
     user.name = 'admin'
     user.avatar = 'assets/images/avatars/brian-hughes.jpg'
