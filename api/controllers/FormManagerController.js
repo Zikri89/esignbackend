@@ -19,7 +19,7 @@ module.exports = {
       const formManager = await FormManager.findOne({
         id: formManagerId,
         isDeleted: false,
-      })
+      }).populate('dynamicForm')
 
       if (!formManager) {
         return res.notFound('Form Manager not found')
