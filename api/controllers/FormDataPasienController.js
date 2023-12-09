@@ -1,3 +1,9 @@
+const fs = require('fs')
+const path = require('path')
+const sharp = require('sharp')
+const uuid = require('uuid')
+const imageType = require('image-type')
+
 module.exports = {
   find: async function (req, res) {
     try {
@@ -33,30 +39,53 @@ module.exports = {
 
   store: async function (req, res) {
     try {
-      const keys = Object.keys(req.body)
+      const formData = req.body;
+      const base64Data = formData.dataJson.signature;
+      const imageBuffer = Buffer.from(
+        base64Data.replace(/^data:image\/\w+;base64,/, ''),
+        'base64'
+      );
+
+      // Menambahkan ekstensi gambar berdasarkan deteksi tipe
+      const detectedType = imageType(imageBuffer);
+      const imageExtension = detectedType ? detectedType.ext : 'jpg';
+      console.log('Detected Image Type:', detectedType);
+
+      // Menambahkan format gambar ke nama file
+      const timestamp = new Date().toISOString().replace(/[-T:]/g, '');
+      const fileName = `${timestamp}_${uuid.v4()}.${imageExtension}`;
+
+      const imagePath = path.join(__dirname, '../../assets/images/signature', fileName);
+
+      // Menggunakan ekstensi yang sesuai dengan format yang diinginkan
+      await sharp(imageBuffer)[imageExtension]().toFile(imagePath);
+      formData.dataJson.signatureFileName = fileName;
+
+      const keys = Object.keys(req.body);
       const formDataPasien = await FormDataPasien.create(
         keys.reduce((acc, key) => {
-          acc[key] = req.body[key]
-          return acc
+          acc[key] = req.body[key];
+          return acc;
         }, {})
-      ).fetch()
+      ).fetch();
 
       if (!formDataPasien) {
-        return res.notFound('Form Data Pasien not created')
+        return res.notFound('Form Data Pasien not created');
       }
 
       return res.json({
         message: 'Form Data Pasien created successfully',
         result: formDataPasien,
-      })
+      });
     } catch (err) {
       if (err.code === 'E_UNIQUE') {
-        return res.status(400).json({ error: 'Unique constraint violated.' })
+        return res.status(400).json({ error: 'Unique constraint violated.' });
       } else if (err.code === 'E_REQUIRED') {
-        return res.status(400).json({ error: 'Required field missing.' })
+        return res.status(400).json({ error: 'Required field missing.' });
       } else {
         // Handle other errors
-        return res.status(500).json({ error: 'Internal Server Error' })
+        console.error('Error:', err.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
       }
     }
   },
@@ -102,7 +131,9 @@ module.exports = {
         return res.badRequest('Form Data Pasien ID is required')
       }
 
-      const formDataPasien = await FormDataPasien.update({ id: formDataPasienId })
+      const formDataPasien = await FormDataPasien.update({
+        id: formDataPasienId,
+      })
         .set({
           deletedBy: 'guest',
           deletedAt: new Date(),

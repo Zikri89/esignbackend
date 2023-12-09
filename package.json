@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "grunt": "1.0.4",
+    "image-type": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-simple": "^0.5.6",
     "machinepack-passwords": "^2.3.0",
@@ -20,7 +21,8 @@
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",
     "sails-mongo": "^2.0.1",
-    "sails-mysql": "^3.0.1"
+    "sails-mysql": "^3.0.1",
+    "sharp": "^0.33.0"
   },
   "devDependencies": {
     "eslint": "5.16.0"
