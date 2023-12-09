@@ -28,5 +28,8 @@ module.exports = {
       type: 'string',
       columnName: 'status',
     },
+    dynamicForm: {
+      model: 'dynamicForm',
+    },
   },
 }
