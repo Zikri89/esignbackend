@@ -42,7 +42,7 @@ module.exports.http = {
     ],
 
     cors: require('cors')({
-      origin: 'http://localhost:4200',
+      origin: ['http://localhost:4200'],
       credentials: false,
       methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH',
       headers: 'content-type, x-api-key, authorization',
