@@ -59,7 +59,16 @@ module.exports = {
 
       // Menggunakan ekstensi yang sesuai dengan format yang diinginkan
       await sharp(imageBuffer)[imageExtension]().toFile(imagePath);
+
       formData.dataJson.signatureFileName = fileName;
+      // Mendapatkan informasi protokol, host, dan port dari permintaan (request)
+      const protocol = req.protocol;
+      const host = req.hostname;
+      const port = req.port || '';
+
+      // Menentukan URL gambar secara dinamis
+      const imageUrl = `${protocol}://${host}${port ? `:${port}` : ''}/assets/images/signature/${fileName}`;
+      formData.dataJson.signatureUrl = imageUrl;
 
       const keys = Object.keys(req.body);
       const formDataPasien = await FormDataPasien.create(
