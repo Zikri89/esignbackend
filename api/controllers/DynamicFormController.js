@@ -1,7 +1,7 @@
 module.exports = {
   find: async function (req, res) {
     try {
-      const dynamicForm = await DynamicForm.find()
+      const dynamicForm = await DynamicForm.find().populate('formManager')
 
       if (!dynamicForm) {
         return res.notFound('DynamicForm not found')

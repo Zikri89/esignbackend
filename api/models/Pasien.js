@@ -1,7 +1,12 @@
 module.exports = {
   tableName: 'pasien',
   attributes: {
-    noRkmMedis: { type: 'string', required: true, columnName: 'no_rkm_medis' },
+    noRkmMedis: {
+      type: 'string',
+      required: true,
+      columnName: 'no_rkm_medis',
+      unique: true,
+    },
     nmPasien: { type: 'string', required: true, columnName: 'nm_pasien' },
     noKtp: { type: 'string', required: true, columnName: 'no_ktp' },
     jk: { type: 'string', isIn: ['L', 'P'], required: true },
