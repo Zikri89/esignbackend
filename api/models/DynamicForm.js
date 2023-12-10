@@ -6,5 +6,8 @@ module.exports = {
       required: true,
       columnName: 'form_field',
     },
+    formManager: {
+      model: 'formManager',
+    },
   },
 };
