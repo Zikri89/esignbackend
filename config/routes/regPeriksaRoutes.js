@@ -1,4 +1,9 @@
 module.exports.routes = {
+  'GET /api/v1/regPeriksa/patientList': {
+    controller: 'RegPeriksaController',
+    action: 'patientList',
+    middleware: 'checkApiKey',
+  },
   'GET /api/v1/regPeriksa/:id': {
     controller: 'RegPeriksaController',
     action: 'findById',

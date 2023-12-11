@@ -1,6 +1,6 @@
 module.exports = {
   tableName: 'dokter',
-  // primaryKey: 'kdDokter',
+  primaryKey: 'kdDokter',
   attributes: {
     kdDokter: {
       type: 'string',

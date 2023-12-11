@@ -1,6 +1,6 @@
 module.exports = {
   tableName: 'reg_periksa',
-  // primaryKey: 'noRawat',
+  primaryKey: 'noRawat',
   attributes: {
     noReg: { type: 'string', required: true, columnName: 'no_reg' },
     noRawat: {

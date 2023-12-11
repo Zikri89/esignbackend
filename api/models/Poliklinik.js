@@ -1,6 +1,6 @@
 module.exports = {
   tableName: 'poliklinik',
-  // primaryKey: 'kdPoli',
+  primaryKey: 'kdPoli',
   attributes: {
     kdPoli: {
       type: 'string',

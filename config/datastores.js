@@ -45,12 +45,12 @@ module.exports.datastores = {
      *    (See https://sailsjs.com/config/datastores for help.)                 *
      *                                                                          *
      ***************************************************************************/
-    adapter: 'sails-mongo',
-    url: 'mongodb+srv://asalngoding89:Qowala_151022@development-cluster.nb8ri2a.mongodb.net/esign?retryWrites=true&w=majority',
+    adapter: 'sails-mysql',
+    url: 'mysql://root@localhost:3306/esign',
   },
 
   // mysql: {
-  //   adapter: 'sails-mysql',
-  //   url: 'mysql://root@localhost:3306/esign',
+    // adapter: 'sails-mongo',
+    // url: 'mongodb+srv://asalngoding89:Qowala_151022@development-cluster.nb8ri2a.mongodb.net/esign?retryWrites=true&w=majority',
   // },
 }

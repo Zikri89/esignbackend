@@ -1,4 +1,39 @@
 module.exports = {
+  patientList: async function (req, res){
+    try {
+      const result = await RegPeriksa.find({
+        where: {
+          no_rkm_medis: { '!=': null },
+          kd_pj: { '!=': null },
+          kd_poli: { '!=': null },
+          kd_dokter: { '!=': null },
+          tgl_registrasi: { '>=': new Date(new Date() - 1) },
+        },
+        select: [
+          'tgl_registrasi',
+          'jam_reg',
+          'no_reg as nomor_antrian',
+          'no_rkm_medis',
+          'umurdaftar',
+          'sttsumur',
+          'png_jawab',
+          'nm_poli',
+          'nm_dokter',
+          'no_rawat',
+          'stts',
+          'biaya_reg',
+          'kd_dokter',
+          'kd_poli',
+        ],
+        groupBy: ['no_rawat'],
+      });
+
+      return res.json(result);
+    } catch (error) {
+      return res.serverError(error);
+    }
+  },
+
   find: async function (req, res) {
     try {
       const regPeriksa = await RegPeriksa.find()

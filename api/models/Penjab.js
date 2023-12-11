@@ -1,6 +1,6 @@
 module.exports = {
   tableName: 'penjab',
-  // primaryKey: 'kdPj',
+  primaryKey: 'kdPj',
   attributes: {
     kdPj: {
       type: 'string',
