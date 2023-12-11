@@ -1,36 +1,23 @@
 module.exports = {
-  patientList: async function (req, res){
+  patientList: async function (req, res) {
     try {
-      const result = await RegPeriksa.find({
-        where: {
-          no_rkm_medis: { '!=': null },
-          kd_pj: { '!=': null },
-          kd_poli: { '!=': null },
-          kd_dokter: { '!=': null },
-          tgl_registrasi: { '>=': new Date(new Date() - 1) },
-        },
-        select: [
-          'tgl_registrasi',
-          'jam_reg',
-          'no_reg as nomor_antrian',
-          'no_rkm_medis',
-          'umurdaftar',
-          'sttsumur',
-          'png_jawab',
-          'nm_poli',
-          'nm_dokter',
-          'no_rawat',
-          'stts',
-          'biaya_reg',
-          'kd_dokter',
-          'kd_poli',
-        ],
-        groupBy: ['no_rawat'],
-      });
+      const result = await RegPeriksa.getDatastore().sendNativeQuery(`
+        select a.tgl_registrasi, a.jam_reg, a.no_reg as nomor_antrian, a.no_rkm_medis,
+        b.nm_pasien, a.umurdaftar, a.sttsumur, c.png_jawab, d.nm_poli,
+        e.nm_dokter, a.no_rawat, a.stts, a.biaya_reg, a.kd_dokter, a.kd_poli
+from reg_periksa a, pasien b, penjab c, poliklinik d, dokter e
+where a.no_rkm_medis=b.no_rkm_medis
+        and a.kd_pj=c.kd_pj
+        and a.kd_poli=d.kd_poli
+        and a.kd_dokter=e.kd_dokter
+        and a.tgl_registrasi between curdate() - INTERVAL 1 DAY and curdate()
+group by a.no_rawat
+        `)
 
-      return res.json(result);
+      return res.json(result.rows)
     } catch (error) {
-      return res.serverError(error);
+      console.error('Error in yourAction:', error)
+      return res.serverError(error)
     }
   },
 
