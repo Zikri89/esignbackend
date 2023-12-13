@@ -39,36 +39,37 @@ module.exports = {
 
   store: async function (req, res) {
     try {
-      const formData = req.body;
-      const base64Data = formData.dataJson.signature;
-      const imageBuffer = Buffer.from(
-        base64Data.replace(/^data:image\/\w+;base64,/, ''),
-        'base64'
-      );
+      // untuk attribute model atau data gambar ttd digital di pindah di bagian halaman review form
+      // const formData = req.body;
+      // const base64Data = formData.dataJson.signature;
+      // const imageBuffer = Buffer.from(
+      //   base64Data.replace(/^data:image\/\w+;base64,/, ''),
+      //   'base64'
+      // );
 
-      // Menambahkan ekstensi gambar berdasarkan deteksi tipe
-      const detectedType = imageType(imageBuffer);
-      const imageExtension = detectedType ? detectedType.ext : 'jpg';
-      console.log('Detected Image Type:', detectedType);
+      // // Menambahkan ekstensi gambar berdasarkan deteksi tipe
+      // const detectedType = imageType(imageBuffer);
+      // const imageExtension = detectedType ? detectedType.ext : 'jpg';
+      // console.log('Detected Image Type:', detectedType);
 
-      // Menambahkan format gambar ke nama file
-      const timestamp = new Date().toISOString().replace(/[-T:]/g, '');
-      const fileName = `${timestamp}_${uuid.v4()}.${imageExtension}`;
+      // // Menambahkan format gambar ke nama file
+      // const timestamp = new Date().toISOString().replace(/[-T:]/g, '');
+      // const fileName = `${timestamp}_${uuid.v4()}.${imageExtension}`;
 
-      const imagePath = path.join(__dirname, '../../assets/images/signature', fileName);
+      // const imagePath = path.join(__dirname, '../../assets/images/signature', fileName);
 
-      // Menggunakan ekstensi yang sesuai dengan format yang diinginkan
-      await sharp(imageBuffer)[imageExtension]().toFile(imagePath);
+      // // Menggunakan ekstensi yang sesuai dengan format yang diinginkan
+      // await sharp(imageBuffer)[imageExtension]().toFile(imagePath);
 
-      formData.dataJson.signatureFileName = fileName;
-      // Mendapatkan informasi protokol, host, dan port dari permintaan (request)
-      const protocol = req.protocol;
-      const host = req.hostname;
-      const port = req.port || '';
+      // formData.dataJson.signatureFileName = fileName;
+      // // Mendapatkan informasi protokol, host, dan port dari permintaan (request)
+      // const protocol = req.protocol;
+      // const host = req.hostname;
+      // const port = req.port || '';
 
-      // Menentukan URL gambar secara dinamis
-      const imageUrl = `${protocol}://${host}${port ? `:${port}` : ''}/assets/images/signature/${fileName}`;
-      formData.dataJson.signatureUrl = imageUrl;
+      // // Menentukan URL gambar secara dinamis
+      // const imageUrl = `${protocol}://${host}${port ? `:${port}` : ''}/assets/images/signature/${fileName}`;
+      // formData.dataJson.signatureUrl = imageUrl;
 
       const keys = Object.keys(req.body);
       const formDataPasien = await FormDataPasien.create(

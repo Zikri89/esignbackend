@@ -1,7 +1,7 @@
 module.exports = {
 
   attributes: {
-    noRkmMedis: {
+    noRawat: {
       type: 'string',
       required: true,
     },
