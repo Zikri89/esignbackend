@@ -6,5 +6,9 @@ module.exports = {
       required: true,
       columnName: 'form_field',
     },
+    formulir: {
+      type: 'json',
+      columnName: 'formulir',
+    },
   },
 };

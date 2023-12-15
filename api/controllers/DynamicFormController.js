@@ -60,31 +60,35 @@ module.exports = {
 
   update: async function (req, res) {
     try {
-      const keys = Object.keys(req.body)
-      const dynamicFormId = req.param('id')
-      const updatedData = keys.reduce((acc, key) => {
-        acc[key] = req.body[key]
-        return acc
-      }, {})
+      const dynamicFormId = req.param('id');
 
-      const dynamicForm = await DynamicForm.update({ id: dynamicFormId }, updatedData).fetch()
+      const existingData = await DynamicForm.findOne({ id: dynamicFormId });
 
-      if (!dynamicForm || dynamicForm.length === 0) {
-        return res.notFound('DynamicForm not found')
+      if (!existingData) {
+        return res.notFound('DynamicForm not found');
       }
+
+      const updatedData = {
+        ...existingData,
+        formulir: req.body.formulir,
+      };
+
+      const dynamicForm = await DynamicForm.updateOne(
+        { id: dynamicFormId },
+        updatedData
+      );
 
       return res.json({
         message: 'DynamicForm updated successfully',
-        result: dynamicForm[0],
-      })
+        result: dynamicForm,
+      });
     } catch (err) {
       if (err.code === 'E_UNIQUE') {
-        return res.status(400).json({ error: 'Unique constraint violated.' })
+        return res.status(400).json({ error: 'Unique constraint violated.' });
       } else if (err.code === 'E_REQUIRED') {
-        return res.status(400).json({ error: 'Required field missing.' })
+        return res.status(400).json({ error: 'Required field missing.' });
       } else {
-        // Handle other errors
-        return res.status(500).json({ error: 'Internal Server Error' })
+        return res.status(500).json({ error: 'Internal Server Error' });
       }
     }
   },

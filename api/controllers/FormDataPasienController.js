@@ -22,7 +22,7 @@ module.exports = {
   findById: async function (req, res) {
     try {
       const formDataPasienId = req.param('id')
-      const formDataPasien = await FormDataPasien.find({
+      const formDataPasien = await FormDataPasien.findOne({
         noRawat: formDataPasienId,
         isDeleted: false,
       })
