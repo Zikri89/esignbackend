@@ -16,7 +16,7 @@ module.exports = {
   findById: async function (req, res) {
     try {
       const pasienId = req.param('id')
-      const pasien = await Pasien.findOne({ id: pasienId })
+      const pasien = await Pasien.findOne({ noRkmMedis: pasienId })
 
       if (!pasien) {
         return res.notFound('Pasien not found')
