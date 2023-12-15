@@ -1,5 +1,4 @@
 module.exports = {
-
   attributes: {
     noRawat: {
       type: 'string',

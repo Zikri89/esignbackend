@@ -3,7 +3,7 @@ module.exports = {
     try {
       const result = await RegPeriksa.getDatastore().sendNativeQuery(`
         select a.tgl_registrasi, a.jam_reg, a.no_reg as nomor_antrian, a.no_rkm_medis,
-        b.nm_pasien, a.umurdaftar, a.sttsumur, c.png_jawab, d.nm_poli,
+        b.nm_pasien, b.tgl_lahir, b.alamat as alam_pasien, b.no_tlp as tlp_pasien, b.no_ktp as ktp_pasien, a.umurdaftar, a.sttsumur, c.png_jawab, d.nm_poli,
         e.nm_dokter, a.no_rawat, a.stts, a.biaya_reg, a.kd_dokter, a.kd_poli
 from reg_periksa a, pasien b, penjab c, poliklinik d, dokter e
 where a.no_rkm_medis=b.no_rkm_medis
@@ -40,14 +40,25 @@ group by a.no_rawat
 
   findById: async function (req, res) {
     try {
-      const regPeriksaId = req.param('id')
-      const regPeriksa = await RegPeriksa.findOne({ id: regPeriksaId })
+      const noRawat = req.param('id')
+      const result = await RegPeriksa.getDatastore().sendNativeQuery(`
+        select a.tgl_registrasi, a.jam_reg, a.no_reg as nomor_antrian, a.no_rkm_medis,
+        b.nm_pasien, b.tgl_lahir, b.alamat as alam_pasien, b.no_tlp as tlp_pasien, b.no_ktp as ktp_pasien, a.umurdaftar, a.sttsumur, c.png_jawab, d.nm_poli,
+        e.nm_dokter, a.no_rawat, a.stts, a.biaya_reg, a.kd_dokter, a.kd_poli
+from reg_periksa a, pasien b, penjab c, poliklinik d, dokter e
+where a.no_rkm_medis=b.no_rkm_medis
+        and a.kd_pj=c.kd_pj
+        and a.kd_poli=d.kd_poli
+        and a.kd_dokter=e.kd_dokter
+        and a.no_rawat=$1
+group by a.no_rawat
+        `, [noRawat])
 
-      if (!regPeriksa) {
+      if (!result) {
         return res.notFound('RegPeriksa not found')
       }
 
-      return res.json(regPeriksa)
+      return res.json(result)
     } catch (error) {
       return res.serverError(error)
     }

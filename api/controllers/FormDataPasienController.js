@@ -22,8 +22,8 @@ module.exports = {
   findById: async function (req, res) {
     try {
       const formDataPasienId = req.param('id')
-      const formDataPasien = await FormDataPasien.findOne({
-        id: formDataPasienId,
+      const formDataPasien = await FormDataPasien.find({
+        noRawat: formDataPasienId,
         isDeleted: false,
       })
 
