@@ -22,8 +22,28 @@ module.exports = {
   findById: async function (req, res) {
     try {
       const formDataPasienId = req.param('id')
+      const formDataPasien = await FormDataPasien.find({
+        noRawat: formDataPasienId,
+        isDeleted: false,
+      })
+
+      if (!formDataPasien) {
+        return res.notFound('Form Data Pasien not found')
+      }
+
+      return res.json(formDataPasien)
+    } catch (error) {
+      return res.serverError(error)
+    }
+  },
+
+  findByIdAndFormulir: async function (req, res) {
+    try {
+      const formDataPasienId = req.param('id')
+      const formDataPasienFormulirId = req.param('formulirId')
       const formDataPasien = await FormDataPasien.findOne({
         noRawat: formDataPasienId,
+        formulir: formDataPasienFormulirId,
         isDeleted: false,
       })
 
@@ -71,13 +91,14 @@ module.exports = {
       // const imageUrl = `${protocol}://${host}${port ? `:${port}` : ''}/assets/images/signature/${fileName}`;
       // formData.dataJson.signatureUrl = imageUrl;
 
-      const keys = Object.keys(req.body);
-      const formDataPasien = await FormDataPasien.create(
-        keys.reduce((acc, key) => {
-          acc[key] = req.body[key];
-          return acc;
-        }, {})
-      ).fetch();
+      const { noRawat, formulir } = req.body;
+
+      const existingData = await FormDataPasien.find({ noRawat, formulir, isDeleted: false });
+      if (existingData.length > 0) {
+        return res.status(400).json({ error: 'Data with noRawat and formulir already exists.' });
+      }
+
+      const formDataPasien = await FormDataPasien.create(req.body).fetch();
 
       if (!formDataPasien) {
         return res.notFound('Form Data Pasien not created');

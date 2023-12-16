@@ -3,7 +3,10 @@ module.exports = {
     noRawat: {
       type: 'string',
       required: true,
-      unique: true,
+    },
+    formulir: {
+      type: 'string',
+      required: true,
     },
     dataJson: {
       type: 'json',

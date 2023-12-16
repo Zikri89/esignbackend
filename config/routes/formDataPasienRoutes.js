@@ -4,6 +4,11 @@ module.exports.routes = {
     action: 'findById',
     middleware: 'checkApiKey',
   },
+  'GET /api/v1/formDataPasien/:id/:formulirId': {
+    controller: 'FormDataPasienController',
+    action: 'findByIdAndFormulir',
+    middleware: 'checkApiKey',
+  },
   'GET /api/v1/formDataPasien': {
     controller: 'FormDataPasienController',
     action: 'find',
