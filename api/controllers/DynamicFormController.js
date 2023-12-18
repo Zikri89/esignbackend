@@ -80,7 +80,7 @@ module.exports = {
     try {
       const dynamicFormId = req.param('id');
 
-      const existingData = await DynamicForm.findOne({ id: dynamicFormId });
+      const existingData = await DynamicForm.findOne({ formManager: dynamicFormId });
 
       if (!existingData) {
         return res.notFound('DynamicForm not found');
@@ -92,7 +92,7 @@ module.exports = {
       };
 
       const dynamicForm = await DynamicForm.updateOne(
-        { id: dynamicFormId },
+        { formManager: dynamicFormId },
         updatedData
       );
 
