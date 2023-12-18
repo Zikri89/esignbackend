@@ -16,7 +16,7 @@ module.exports = {
   findById: async function (req, res) {
     try {
       const dynamicFormId = req.param('id')
-      const dynamicForm = await DynamicForm.findOne({ id: dynamicFormId })
+      const dynamicForm = await DynamicForm.findOne({ formManager: dynamicFormId })
 
       if (!dynamicForm) {
         return res.json({ message: null })
@@ -118,7 +118,7 @@ module.exports = {
         return res.badRequest('DynamicForm ID is required')
       }
 
-      const dynamicForm = await DynamicForm.updateOne({ id: dynamicFormId })
+      const dynamicForm = await DynamicForm.updateOne({ formManager: dynamicFormId })
         .set({
           deletedBy: 'guest',
           deletedAt: new Date(),
@@ -160,7 +160,7 @@ module.exports = {
     try {
       const dynamicFormId = req.params.id
       const dynamicForm = await DynamicForm.destroy({
-        id: dynamicFormId,
+        formManager: dynamicFormId,
       }).fetch()
 
       if (!dynamicForm || dynamicForm.length === 0) {
