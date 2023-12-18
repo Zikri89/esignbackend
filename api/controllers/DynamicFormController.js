@@ -19,7 +19,7 @@ module.exports = {
       const dynamicForm = await DynamicForm.findOne({ id: dynamicFormId })
 
       if (!dynamicForm) {
-        return res.notFound('DynamicForm not found')
+        return res.json({ message: null })
       }
 
       return res.json(dynamicForm)
