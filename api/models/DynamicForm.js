@@ -1,6 +1,10 @@
 module.exports = {
   tableName: 'dynamic_form',
   attributes: {
+    formManager: {
+      type: 'string',
+      columnName: 'form_manager',
+    },
     formFields: {
       type: 'json',
       required: true,

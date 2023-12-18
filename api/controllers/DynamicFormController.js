@@ -30,30 +30,48 @@ module.exports = {
 
   store: async function (req, res) {
     try {
-      const keys = Object.keys(req.body)
-      const dynamicForm = await DynamicForm.create(
-        keys.reduce((acc, key) => {
-          acc[key] =  req.body[key]
-          return acc
-        }, {})
-      ).fetch()
+      const formManager = req.body.formManager;
 
-      if (!dynamicForm) {
-        return res.notFound('DynamicForm not created')
+      const existingForm = await DynamicForm.findOne({ formManager: formManager });
+
+      if (existingForm) {
+        const updatedForm = await DynamicForm.updateOne({ formManager: formManager })
+          .set(req.body);
+
+        if (!updatedForm) {
+          return res.serverError('Failed to update DynamicForm');
+        }
+
+        return res.json({
+          message: 'DynamicForm updated successfully',
+          result: updatedForm,
+        });
+      } else {
+        const keys = Object.keys(req.body);
+        const newForm = await DynamicForm.create(
+          keys.reduce((acc, key) => {
+            acc[key] = req.body[key];
+            return acc;
+          }, {})
+        ).fetch();
+
+        if (!newForm) {
+          return res.serverError('Failed to create DynamicForm');
+        }
+
+        return res.json({
+          message: 'DynamicForm created successfully',
+          result: newForm,
+        });
       }
-
-      return res.json({
-        message: 'DynamicForm created successfully',
-        result: dynamicForm,
-      })
     } catch (err) {
       if (err.code === 'E_UNIQUE') {
-        return res.status(400).json({ error: 'Unique constraint violated.' })
+        return res.status(400).json({ error: 'Unique constraint violated.' });
       } else if (err.code === 'E_REQUIRED') {
-        return res.status(400).json({ error: 'Required field missing.' })
+        return res.status(400).json({ error: 'Required field missing.' });
       } else {
         // Handle other errors
-        return res.status(500).json({ error: 'Internal Server Error' })
+        return res.status(500).json({ error: 'Internal Server Error' });
       }
     }
   },
