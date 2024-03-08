@@ -8,16 +8,33 @@ module.exports = {
         return res.badRequest('Kode User and password are required')
       }
 
-      const user = await User.findOne({ idUser: userCode, password: password })
+      const user = await User.getDatastore().sendNativeQuery(`
+              select b.nama, AES_DECRYPT(a.id_user, 'nur') as user,
+              AES_DECRYPT(a.password, 'windi') as password
+        from user a, petugas b
+        where AES_DECRYPT(a.id_user, 'nur')=b.nip
+              and b.status='1'
+              and AES_DECRYPT(a.id_user, 'nur')=${userCode}
+              and AES_DECRYPT(a.password, 'windi')=${password}
+        group by b.nip
+        union
+        select b.nm_dokter as nama, AES_DECRYPT(a.id_user, 'nur') as user,
+              AES_DECRYPT(a.password, 'windi') as password
+        from user a, dokter b
+        where AES_DECRYPT(a.id_user, 'nur')=b.kd_dokter
+              and b.status='1'
+              and AES_DECRYPT(a.id_user, 'nur')=${userCode}
+              and AES_DECRYPT(a.password, 'windi')=${password}
+        `)
 
-      if (!user) {
+      if (user.rows.length < 1) {
         return res.badRequest('Invalid user and password')
       }
 
       // Buat payload untuk token JWT
       const payload = {
-        idUser: user.idUser,
-        password: user.password,
+        idUser: userCode,
+        password: password,
         exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60),
       }
 

@@ -46,7 +46,7 @@ module.exports.datastores = {
      *                                                                          *
      ***************************************************************************/
     adapter: 'sails-mysql',
-    url: 'mysql://root@localhost:3306/esign',
+    url: 'mysql://root@localhost:3306/sik_dummy',
   },
 
   // mysql: {

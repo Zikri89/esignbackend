@@ -1,5 +1,5 @@
 module.exports = {
-  tableName: 'dynamic_form',
+  tableName: 'zk_dynamic_form',
   attributes: {
     formManager: {
       type: 'string',

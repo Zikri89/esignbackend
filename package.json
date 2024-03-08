@@ -21,6 +21,7 @@
     "sails-hook-grunt": "^5.0.0",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",
+    "sails-mariadb": "^1.2.3",
     "sails-mongo": "^2.0.1",
     "sails-mysql": "^3.0.1",
     "sharp": "^0.33.0"

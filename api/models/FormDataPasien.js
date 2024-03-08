@@ -1,22 +1,21 @@
 module.exports = {
+  tableName: 'zk_formdatapasien',
   attributes: {
     noRawat: {
       type: 'string',
-      required: true,
+      columnName: 'no_rawat',
     },
     formulir: {
       type: 'string',
-      required: true,
+      columnName: 'formulir',
     },
     dataJson: {
       type: 'json',
-      columnType: 'json',
-      required: true,
+      columnName: 'data_json',
     },
     isDeleted: {
       type: 'boolean',
       columnName: 'isDeleted',
-      defaultsTo: false,
     },
     deletedBy: {
       type: 'string',

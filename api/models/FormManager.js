@@ -1,11 +1,9 @@
 module.exports = {
-  tableName: 'form_manager',
+  tableName: 'zk_form_manager',
   attributes: {
     name: {
       type: 'string',
-      required: true,
       columnName: 'name',
-      unique: true,
     },
     description: {
       type: 'string',
@@ -14,7 +12,6 @@ module.exports = {
     isDeleted: {
       type: 'boolean',
       columnName: 'isDeleted',
-      defaultsTo: false,
     },
     deletedBy: {
       type: 'string',
